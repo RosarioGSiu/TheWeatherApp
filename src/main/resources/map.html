@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Leaflet CSS from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        html, body { height: 100%; margin: 0; }
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<!-- Leaflet JS from CDN -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([42.5, 12.5], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data © OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Add markers for Italy, Netherlands, and Mexico
+    var markerItaly = L.marker([42.5, 12.5]).addTo(map).bindPopup("Italy");
+    var markerNetherlands = L.marker([52.52, 4.9]).addTo(map).bindPopup("Netherlands");
+    var markerMexico = L.marker([23.63, -102.55]).addTo(map).bindPopup("Mexico");
+
+  
+    markerItaly.on('click', function() {
+        if (typeof javaConnector !== 'undefined') {
+            javaConnector.onMapClick(42.5, 12.5);
+        }
+    });
+    markerNetherlands.on('click', function() {
+        if (typeof javaConnector !== 'undefined') {
+            javaConnector.onMapClick(52.52, 4.9);
+        }
+    });
+    markerMexico.on('click', function() {
+        if (typeof javaConnector !== 'undefined') {
+            javaConnector.onMapClick(23.63, -102.55);
+        }
+    });
+
+    
+    map.on('click', function(e) {
+        if (typeof javaConnector !== 'undefined') {
+            javaConnector.onMapClick(e.latlng.lat, e.latlng.lng);
+        }
+    });
+</script>
+</body>
+</html>
